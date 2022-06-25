@@ -1,5 +1,5 @@
 # ResNet-50
-## Implementation of AlexNet Network
+## Implementation of ResNet-50 Network
 The following is an implemenation of 'Deep Residual Learning for Image Recognition' by Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. It allows you to train a model with identical specifications to ResNet-50 on training and validation images saved in a specified directory.
 
 ## Basic Architecture
@@ -7,7 +7,7 @@ Our network consists of a simple convolutional layer, followed by a series of re
 
 ## Model Construction Details
 ### Optimization
-AlexNet utilizes stochastic gradient descent with momentum and constant weight decay, with values of 0.9 and 0.0001 respectivley. The learning rate is initialized to 0.1 and is decreased by a factor of 10 when validation error stops decreasing. The exact criteria for this shrinking are not specified by the authors, so this implementation uses a fairly standard heuristic.
+ResNet utilizes stochastic gradient descent with momentum and constant weight decay, with values of 0.9 and 0.0001 respectivley. The learning rate is initialized to 0.1 and is decreased by a factor of 10 when validation error stops decreasing. The exact criteria for this shrinking are not specified by the authors, so this implementation uses a fairly standard heuristic.
 
 ### Batch Normalization
 Due to the depth of residual networks, it comes as no surprise that batch normalization is used extensively. They are used after every convolutional layer and before final activation in each residual block.
@@ -18,7 +18,7 @@ ResNet employs several types of image augmentations. The first form of data augm
 While the set of data augmentations is identical during both training and prediction, the method that they are applied is slightly different during these phases. Firstly, upon initilization, our model calculates the PCA terms needed for augmentation. Next, during training, each scaled input image is randomly flipped horizontally with probability 0.5, and then a random 224x224 slice of the image is chosen. The RGB values are then transformed, and image is sent into our network. Finally, upon prediction, each input image is scaled to five separate scales. Each is used to create 10 new images on which to predict: the corners and center of our original image create 5 of our training images, and their horizontal reflections create the remaining 5. The PCA values of these 10 images are then transformed, and predictions are made across these 50 new images. Our final prediction is then the average across these 50 predictions.
 
 ### Additional Implementation Details
-The paper includes many finer details that are less novel. Relu activation is used for non-output layers, weight and bias initializations are specified, etc. Each of these details are accounted for, but are likely of little interest.
+The paper includes many finer details that are less novel. Relu activation is used for non-output layers, weight initializations are specified, etc. Each of these details are accounted for, but are likely of little interest.
 
 ## Example Implementation
 ### Basic Implemenation: Creating and Fitting a ResNet-50 Model
